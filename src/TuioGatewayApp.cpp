@@ -89,6 +89,9 @@ public:
         char buffer[MAX_PATH] = { 0 };
         strcpy(buffer, mEnumTypes[APP_USAGE].c_str());
 
+        if (mTuio) mTuio.reset();
+        if (mOscSender) mOscSender.reset();
+
         if (APP_USAGE != USAGE_SERVER)
         {
             mOscReceiver = std::make_shared<osc::ReceiverUdp>(LOCAL_TUIO_PORT);
@@ -342,9 +345,9 @@ public:
 #endif
 
 private:
-    std::shared_ptr<tuio::Receiver>     mTuio;
     std::shared_ptr<osc::SenderUdp>     mOscSender;
     std::shared_ptr<osc::ReceiverUdp>   mOscReceiver;
+    std::shared_ptr<tuio::Receiver>     mTuio;
 #if OSC_MODE
     osc::SenderUdp                 mOscServer;
 #endif
