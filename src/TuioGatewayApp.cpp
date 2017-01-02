@@ -6,9 +6,8 @@
 #include "cinder/Utilities.h"
 #include "cinder/tuio/Tuio.h"
 #include "cinder/osc/Osc.h"
-#include "cinder/params/Params.h"
 
-#include "Cinder-VNM/include/MiniConfig.h"
+#include "Cinder-VNM/include/MiniConfigImgui.h"
 
 #include <vector>
 #include <unordered_map>
@@ -52,13 +51,21 @@ public:
 
     void mouseUp(MouseEvent event)
     {
-        mCursorPressed = false;
+        dispatchAsync([&] {
+            mActiveCursors.erase(-1);
+        });
     }
 
     void mouseDrag(MouseEvent event)
     {
-        mCursorPressed = true;
-        mCursorPos = event.getPos();
+        auto cursorPos = event.getPos();
+
+        dispatchAsync([&, cursorPos] {
+            MyCursor cursor = {};
+            cursor.mSessionId = -1;
+            cursor.mPosition = { cursorPos.x / getWindowWidth(), cursorPos.y / getWindowHeight() };
+            mActiveCursors[cursor.mSessionId] = cursor;
+        });
     }
 
     enum { USAGE_CLIENT, USAGE_SERVER, USAGE_ROUTER, USAGE_COUNT };
@@ -66,8 +73,6 @@ public:
     void onConnect()
     {
         APP_USAGE = math<int>::clamp(APP_USAGE, USAGE_CLIENT, USAGE_ROUTER);
-
-        mCursorPressed = false;
 
 #if OSC_MODE
         mOscServer = osc::SenderUdp();
@@ -155,29 +160,13 @@ public:
         mStatus = "idle..press CONNECT button";
         mCurrentAppUsage = USAGE_COUNT;
 
-        mParams = params::InterfaceGl("param", { 270, 240 });
-        {
-            mEnumTypes.clear();
-            mEnumTypes.push_back("Client");
-            mEnumTypes.push_back("Server");
-            mEnumTypes.push_back("Router");
+        mEnumTypes.clear();
+        mEnumTypes.push_back("Client");
+        mEnumTypes.push_back("Server");
+        mEnumTypes.push_back("Router");
 
-            // MAGIC!
-            int lines = 0;
-#define ITEM_DEF(type, var, default) mParams.addParam(#var, &var);
-#include "item.def"
-#undef ITEM_DEF
-
-            // HACK!
-            mParams.removeParam("APP_USAGE");
-            mParams.addSeparator();
-            mParams.addParam("APP_USAGE", mEnumTypes, &APP_USAGE);
-            mParams.addSeparator();
-            mParams.addButton("CONNECT", bind(&TuioGateway::onConnect, this));
-            mParams.addButton("SAVE", writeConfig);
-
-            onConnect();
-        }
+        createConfigImgui();
+        onConnect();
 
         console() << "MT: " << System::hasMultiTouch() << " Max points: " << System::getMaxMultiTouchPoints() << std::endl;
 
@@ -186,20 +175,23 @@ public:
 
     void update()
     {
+        {
+            ui::ScopedWindow window("Config");
+            ui::NewLine();
+
+            //// HACK!
+            //mParams.removeParam("APP_USAGE");
+            //mParams.addSeparator();
+            //mParams.addParam("APP_USAGE", mEnumTypes, &APP_USAGE);
+
+            if (ui::Button("CONNECT"))
+            {
+                onConnect();
+            }
+        }
+
         N_DISPLAYS = math<int>::clamp(N_DISPLAYS, 1, 8);
         REMOTE_DISPLAY_ID = math<int>::clamp(REMOTE_DISPLAY_ID, 1, N_DISPLAYS);
-
-        if (mCursorPressed)
-        {
-            MyCursor cursor = {};
-            cursor.mSessionId = -1;
-            cursor.mPosition = { mCursorPos.x / getWindowWidth(), mCursorPos.y / getWindowHeight() };
-            mActiveCursors[cursor.mSessionId] = cursor;
-        }
-        else
-        {
-            mActiveCursors.erase(-1);
-        }
 
         if (mCurrentAppUsage == USAGE_SERVER || mCurrentAppUsage == USAGE_ROUTER)
         {
@@ -226,29 +218,16 @@ public:
 
             gl::drawString(mStatus, vec2(10, getWindowHeight() - 100), ColorA::white(), mFont);
         }
-
-        mParams.draw();
     }
 
-    void keyDown(KeyEvent event) {
+    void keyDown(KeyEvent event)
+    {
         switch (event.getCode())
         {
         case KeyEvent::KEY_ESCAPE:
         {
             quit();
-        }break;
-        case KeyEvent::KEY_h:
-        {
-            if (mParams.isVisible())
-            {
-                mParams.show(false);
-                VISUAL_EFFECT = false;
-            }
-            else
-            {
-                mParams.show(true);
-                VISUAL_EFFECT = true;
-            }
+            break;
         }
         default:
             break;
@@ -314,6 +293,7 @@ public:
         }
     }
 
+#if OSC_MODE
     void sendOscMessages(osc::SenderUdp& sender, const unordered_map<uint32_t, MyCursor>& cursors)
     {
         if (!cursors.empty())
@@ -359,10 +339,9 @@ public:
             }
         }
     }
+#endif
 
 private:
-    params::InterfaceGl mParams;
-
     std::shared_ptr<tuio::Receiver>     mTuio;
     std::shared_ptr<osc::SenderUdp>     mOscSender;
     std::shared_ptr<osc::ReceiverUdp>   mOscReceiver;
@@ -373,10 +352,6 @@ private:
     vector<string>              mEnumTypes;
     string                      mStatus;
     Font                        mFont;
-
-    mutex                       mMutex;
-    bool                        mCursorPressed;
-    vec2                       mCursorPos;
 
     int                         mCurrentAppUsage;
 };
