@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -49,7 +50,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;"..\..\Cinder\include";..\..\Cinder\blocks\Cinder-ImGui\lib\imgui;..\..\Cinder\blocks\Cinder-ImGui\include;..\blocks\vnm\include;..\..\Cinder\blocks\OSC\src;..\..\Cinder\blocks\TUIO\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;"..\..\Cinder\include";..\..\Cinder\blocks\Cinder-ImGui\lib\imgui;..\..\Cinder\blocks\Cinder-ImGui\include;..\..\Cinder\blocks\;..\..\Cinder\blocks\OSC\src;..\..\Cinder\blocks\TUIO\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_WINDOWS;NOMINMAX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -75,7 +76,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include;"..\..\Cinder\include";..\..\Cinder\blocks\Cinder-ImGui\lib\imgui;..\..\Cinder\blocks\Cinder-ImGui\include;..\blocks\vnm\include;..\..\Cinder\blocks\OSC\src;..\..\Cinder\blocks\TUIO\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;"..\..\Cinder\include";..\..\Cinder\blocks\Cinder-ImGui\lib\imgui;..\..\Cinder\blocks\Cinder-ImGui\include;..\..\Cinder\blocks\;..\..\Cinder\blocks\OSC\src;..\..\Cinder\blocks\TUIO\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32_WINNT=0x0601;_WINDOWS;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader />
@@ -105,38 +106,42 @@
   <ItemGroup>
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Xml Include="..\assets\MiniConfig.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\AssetManager.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\CaptureHelper.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\FontHelper.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\GlslParamsBuilder.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\GlslParamsBuilderImgui.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\MiniConfig.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\MiniConfigImgui.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\MotionHelper.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\StateMachine.h" />
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\TextureHelper.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\include\item.def" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\CinderImGui.h" />
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\imgui_user.h" />
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\imgui_user.inl" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imconfig.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_internal.h" />
-    <ClInclude Include="..\blocks\vnm\include\AssetManager.h" />
-    <ClInclude Include="..\blocks\vnm\include\CaptureHelper.h" />
-    <ClInclude Include="..\blocks\vnm\include\FontHelper.h" />
-    <ClInclude Include="..\blocks\vnm\include\GlslParamsBuilder.h" />
-    <ClInclude Include="..\blocks\vnm\include\GlslParamsBuilderImgui.h" />
-    <ClInclude Include="..\blocks\vnm\include\MiniConfig.h" />
-    <ClInclude Include="..\blocks\vnm\include\MiniConfigImgui.h" />
-    <ClInclude Include="..\blocks\vnm\include\MotionHelper.h" />
-    <ClInclude Include="..\blocks\vnm\include\StateMachine.h" />
-    <ClInclude Include="..\blocks\vnm\include\TextureHelper.h" />
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\cinder\osc\Osc.h" />
     <ClInclude Include="..\..\Cinder\blocks\TUIO\src\cinder\tuio\Tuio.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\AssetManager.cpp" />
+    <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\MiniConfig.cpp" />
     <ClCompile Include="..\src\TuioGatewayApp.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\src\CinderImGui.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\blocks\vnm\src\AssetManager.cpp" />
-    <ClCompile Include="..\blocks\vnm\src\MiniConfig.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\OSC\src\cinder\osc\Osc.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\TUIO\src\cinder\tuio\Tuio.cpp" />
   </ItemGroup>

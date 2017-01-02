@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -30,15 +31,6 @@
     <Filter Include="Blocks\ImGui\src">
       <UniqueIdentifier>{A6BAF3C5-9076-4EEB-BC0F-DCB42FCD2975}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Blocks\vnm">
-      <UniqueIdentifier>{DACA7ACA-4156-4851-971E-472917B236B3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\vnm\src">
-      <UniqueIdentifier>{78519FAE-330C-46EC-A7A6-356326F0D27A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\vnm\include">
-      <UniqueIdentifier>{434642A3-5785-4FB0-9417-38725C4BE855}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Blocks\OSC">
       <UniqueIdentifier>{C6BD6F4C-2D91-4478-A395-27500BD27EDA}</UniqueIdentifier>
     </Filter>
@@ -63,6 +55,9 @@
     <Filter Include="Blocks\TUIO\src\cinder\tuio">
       <UniqueIdentifier>{870D5725-5CF8-42DC-988A-5305D07E6553}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Blocks\VNM">
+      <UniqueIdentifier>{a5362345-b37d-47b2-b6d0-53b825f88d97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\TuioGatewayApp.cpp">
@@ -78,12 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\CinderImGui.h">
-      <Filter>Blocks\ImGui\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\imgui_user.h">
-      <Filter>Blocks\ImGui\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\imgui_user.inl">
       <Filter>Blocks\ImGui\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imconfig.h">
@@ -107,42 +96,6 @@
     <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_demo.cpp">
       <Filter>Blocks\ImGui\lib\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\blocks\vnm\src\AssetManager.cpp">
-      <Filter>Blocks\vnm\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\blocks\vnm\src\MiniConfig.cpp">
-      <Filter>Blocks\vnm\src</Filter>
-    </ClCompile>
-    <ClInclude Include="..\blocks\vnm\include\AssetManager.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\CaptureHelper.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\FontHelper.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\GlslParamsBuilder.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\GlslParamsBuilderImgui.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\MiniConfig.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\MiniConfigImgui.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\MotionHelper.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\StateMachine.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\blocks\vnm\include\TextureHelper.h">
-      <Filter>Blocks\vnm\include</Filter>
-    </ClInclude>
     <ClCompile Include="..\..\Cinder\blocks\OSC\src\cinder\osc\Osc.cpp">
       <Filter>Blocks\OSC\src\cinder\osc</Filter>
     </ClCompile>
@@ -155,15 +108,62 @@
     <ClInclude Include="..\..\Cinder\blocks\TUIO\src\cinder\tuio\Tuio.h">
       <Filter>Blocks\TUIO\src\cinder\tuio</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.cpp">
+      <Filter>Blocks\ImGui\lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\AssetManager.cpp">
+      <Filter>Blocks\VNM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\MiniConfig.cpp">
+      <Filter>Blocks\VNM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.h">
+      <Filter>Blocks\ImGui\lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\AssetManager.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\CaptureHelper.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\FontHelper.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\GlslParamsBuilder.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\GlslParamsBuilderImgui.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\MiniConfig.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\MiniConfigImgui.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\MotionHelper.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\StateMachine.h">
+      <Filter>Blocks\VNM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\TextureHelper.h">
+      <Filter>Blocks\VNM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\assets\MiniConfig.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
