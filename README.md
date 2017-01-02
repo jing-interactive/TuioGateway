@@ -1,9 +1,13 @@
 TuioGateway
 ===========
 
-Cinder based multi-purpose TUIO server/client
+Multi-purpose cross-platform TUIO server / client
 
-开发语言：C++/Cinder
+To build this project, you need:
+
+* [Cinder](https://github.com/cinder/Cinder)
+* [Cinder-VNM](https://github.com/vnm-interactive/Cinder-VNM)   
+* [Cinder-ImGui](https://github.com/vnm-interactive/Cinder-ImGui)  
 
 有三种工作模式 
   * Client，仅仅接收TUIO信号，并进行可视化，可以取代Ventuz来验证TUIO信号
