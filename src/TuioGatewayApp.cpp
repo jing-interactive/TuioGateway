@@ -86,7 +86,7 @@ public:
         };
         getWindow()->setTitle(kUsageDescs[APP_USAGE]);
 
-        char buffer[MAX_PATH] = { 0 };
+        char buffer[256] = { 0 };
         strcpy(buffer, mEnumTypes[APP_USAGE].c_str());
 
         if (mTuio) mTuio.reset();
@@ -110,13 +110,13 @@ public:
             try
             {
                 mOscReceiver->bind();
-                sprintf_s(buffer, MAX_PATH, "%s | listen at #%d", buffer, LOCAL_TUIO_PORT);
+                sprintf(buffer, "%s | listen at #%d", buffer, LOCAL_TUIO_PORT);
                 mCurrentAppUsage = APP_USAGE;
             }
             catch (const ci::Exception &ex)
             {
                 CI_LOG_EXCEPTION("OscReceiver bind", ex);
-                sprintf_s(buffer, MAX_PATH, "%s | [FAIL]!!!", buffer);
+                sprintf(buffer, "%s | [FAIL]!!!", buffer);
             }
 
             // And listen for messages.
@@ -141,13 +141,13 @@ public:
             try
             {
                 mOscSender->bind();
-                sprintf_s(buffer, MAX_PATH, "%s | sending to %s: #%d", buffer, REMOTE_IP.c_str(), REMOTE_TUIO_PORT);
+                sprintf(buffer, "%s | sending to %s: #%d", buffer, REMOTE_IP.c_str(), REMOTE_TUIO_PORT);
                 mCurrentAppUsage = APP_USAGE;
             }
             catch (const ci::Exception &ex)
             {
                 CI_LOG_EXCEPTION("mOscSender bind", ex);
-                sprintf_s(buffer, MAX_PATH, "%s | [FAIL]!!!", buffer);
+                sprintf(buffer, "%s | [FAIL]!!!", buffer);
             }
 #endif
         }
@@ -173,7 +173,7 @@ public:
 
         console() << "MT: " << System::hasMultiTouch() << " Max points: " << System::getMaxMultiTouchPoints() << std::endl;
 
-        mFont = Font("YouYuan", 22);
+        mFont = Font( "Times New Roman", 22 );
     }
 
     void update()
@@ -365,7 +365,7 @@ void preSettings(App::Settings *settings)
 #if defined( CINDER_MSW_DESKTOP )
     settings->setConsoleWindowEnabled();
 #endif
-    settings->setMultiTouchEnabled();
+    settings->setMultiTouchEnabled(false);
 }
 
 CINDER_APP(TuioGateway, RendererGl, preSettings)
