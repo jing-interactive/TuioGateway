@@ -58,7 +58,7 @@ public:
 
     void mouseDrag(MouseEvent event)
     {
-        auto cursorPos = event.getPos();
+        vec2 cursorPos = event.getPos();
 
         dispatchAsync([&, cursorPos] {
             MyCursor cursor = {};
