@@ -365,7 +365,7 @@ void preSettings(App::Settings *settings)
 #if defined( CINDER_MSW_DESKTOP )
     settings->setConsoleWindowEnabled();
 #endif
-    settings->setMultiTouchEnabled(false);
+//    settings->setMultiTouchEnabled(false);
 }
 
 CINDER_APP(TuioGateway, RendererGl, preSettings)
