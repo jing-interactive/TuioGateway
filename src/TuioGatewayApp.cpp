@@ -7,7 +7,12 @@
 #include "cinder/tuio/Tuio.h"
 #include "cinder/osc/Osc.h"
 
-#include "Cinder-VNM/include/MiniConfigImgui.h"
+#if defined( CINDER_MSW_DESKTOP )
+    #include "cinder/params/Params.h"
+    #include "Cinder-VNM/include/MiniConfig.h"
+#else
+    #include "Cinder-VNM/include/MiniConfigImgui.h"
+#endif
 
 #include <vector>
 #include <unordered_map>
@@ -168,7 +173,14 @@ public:
         mEnumTypes.push_back("Server");
         mEnumTypes.push_back("Router");
 
+#if defined( CINDER_MSW_DESKTOP )
+        auto params = createConfigUI({ 270, 240 });
+        ADD_ENUM_TO_INT(params, APP_USAGE, mEnumTypes);
+        params->addButton("CONNECT", std::bind(&TuioGateway::onConnect, this));
+#else
         createConfigImgui();
+#endif
+
         onConnect();
 
         console() << "MT: " << System::hasMultiTouch() << " Max points: " << System::getMaxMultiTouchPoints() << std::endl;
@@ -178,20 +190,17 @@ public:
 
     void update()
     {
+#if !defined( CINDER_MSW_DESKTOP )
         {
             ui::ScopedWindow window("Config");
             ui::NewLine();
-
-            //// HACK!
-            //mParams.removeParam("APP_USAGE");
-            //mParams.addSeparator();
-            //mParams.addParam("APP_USAGE", mEnumTypes, &APP_USAGE);
 
             if (ui::Button("CONNECT"))
             {
                 onConnect();
             }
         }
+#endif
 
         N_DISPLAYS = math<int>::clamp(N_DISPLAYS, 1, 8);
         REMOTE_DISPLAY_ID = math<int>::clamp(REMOTE_DISPLAY_ID, 1, N_DISPLAYS);
