@@ -6,6 +6,7 @@
 #include "cinder/Utilities.h"
 #include "cinder/tuio/Tuio.h"
 #include "cinder/osc/Osc.h"
+#include "cinder/rand.h"
 
 #if defined( CINDER_MSW_DESKTOP )
     #include "cinder/params/Params.h"
@@ -22,6 +23,7 @@ using namespace ci::app;
 using namespace std;
 
 #define OSC_MODE 0
+#define FAKE_SESSION_ID -1
 
 struct MyCursor
 {
@@ -44,7 +46,8 @@ struct MyCursor
     float		mAcceleration;
 };
 
-class TuioGateway : public App {
+class TuioGateway : public App
+{
 public:
 
     unordered_map<uint32_t, MyCursor> mActiveCursors;
@@ -57,7 +60,7 @@ public:
     void mouseUp(MouseEvent event)
     {
         dispatchAsync([&] {
-            mActiveCursors.erase(-1);
+            mActiveCursors.erase(FAKE_SESSION_ID);
         });
     }
 
@@ -67,40 +70,40 @@ public:
 
         dispatchAsync([&, cursorPos] {
             MyCursor cursor = {};
-            cursor.mSessionId = -1;
+            cursor.mSessionId = FAKE_SESSION_ID;
             cursor.mPosition = { cursorPos.x / getWindowWidth(), cursorPos.y / getWindowHeight() };
-            mActiveCursors[cursor.mSessionId] = cursor;
+            mActiveCursors[FAKE_SESSION_ID] = cursor;
         });
     }
 
-    enum { USAGE_CLIENT, USAGE_SERVER, USAGE_ROUTER, USAGE_COUNT };
+    enum
+    {
+        eRECEIVER,
+        eSENDER,
+        eROUTER,
+        eRANDOM_SENDER,
+
+        eCOUNT
+    };
 
     void onConnect()
     {
-        APP_USAGE = math<int>::clamp(APP_USAGE, USAGE_CLIENT, USAGE_ROUTER);
+        MODE = math<int>::clamp(MODE, eRECEIVER, eCOUNT - 1);
 
 #if OSC_MODE
         mOscServer = osc::SenderUdp();
 #endif
 
-        const char* kUsageDescs[] =
-        {
-            "TuioGateway - Client Mode",
-            "TuioGateway - Server Mode",
-            "TuioGateway - Router Mode",
-        };
-        getWindow()->setTitle(kUsageDescs[APP_USAGE]);
-
         char buffer[256] = { 0 };
-        strcpy(buffer, mEnumTypes[APP_USAGE].c_str());
+        strcpy(buffer, mEnumTypes[MODE].c_str());
 
         if (mTuio) mTuio.reset();
         if (mOscSender) mOscSender.reset();
 
-        if (APP_USAGE != USAGE_SERVER)
+        if (MODE != eSENDER && MODE != eRANDOM_SENDER)
         {
-            mOscReceiver = std::make_shared<osc::ReceiverUdp>(LOCAL_TUIO_PORT);
-            mTuio = std::make_shared<tuio::Receiver>(mOscReceiver.get());
+            mOscReceiver = make_unique<osc::ReceiverUdp>(LOCAL_TUIO_PORT);
+            mTuio = make_unique<tuio::Receiver>(mOscReceiver.get());
 
             mTuio->setAddedFn<tuio::Cursor2d>([&](const tuio::Cursor2d& cursor) {
                 mActiveCursors.insert(make_pair(cursor.getSessionId(), cursor));
@@ -116,7 +119,7 @@ public:
             {
                 mOscReceiver->bind();
                 sprintf(buffer, "%s | listen at #%d", buffer, LOCAL_TUIO_PORT);
-                mCurrentAppUsage = APP_USAGE;
+                mCurrentAppUsage = MODE;
             }
             catch (const ci::Exception &ex)
             {
@@ -135,19 +138,19 @@ public:
             });
         }
 
-        if (APP_USAGE != USAGE_CLIENT)
+        if (MODE != eRECEIVER)
         {
 #if OSC_MODE
             mOscServer.setup(REMOTE_IP, REMOTE_OSC_PORT);
             sprintf_s(buffer, MAX_PATH, "%s | sending to %s: #%d | #%d",
                 buffer, REMOTE_IP.c_str(), REMOTE_TUIO_PORT, REMOTE_OSC_PORT);
 #else
-            mOscSender = std::make_shared<osc::SenderUdp>(10000, REMOTE_IP, REMOTE_TUIO_PORT);
+            mOscSender = make_unique<osc::SenderUdp>(10000, REMOTE_IP, REMOTE_TUIO_PORT);
             try
             {
                 mOscSender->bind();
                 sprintf(buffer, "%s | sending to %s: #%d", buffer, REMOTE_IP.c_str(), REMOTE_TUIO_PORT);
-                mCurrentAppUsage = APP_USAGE;
+                mCurrentAppUsage = MODE;
             }
             catch (const ci::Exception &ex)
             {
@@ -162,28 +165,25 @@ public:
 
     void setup()
     {
-        console() << "TuioGateway built on " << __DATE__ << endl;
+        log::makeLogger<log::LoggerFile>();
+        console() << "EXE built on " << __DATE__ << endl;
 
         readConfig();
-        mStatus = "idle..press CONNECT button";
-        mCurrentAppUsage = USAGE_COUNT;
+        mCurrentAppUsage = eCOUNT;
 
-        mEnumTypes.clear();
-        mEnumTypes.push_back("Client");
-        mEnumTypes.push_back("Server");
-        mEnumTypes.push_back("Router");
+        mEnumTypes = { "Receiver", "Sender", "Router", "Random Sender" };
 
 #if defined( CINDER_MSW_DESKTOP )
         auto params = createConfigUI({ 270, 240 });
-        ADD_ENUM_TO_INT(params, APP_USAGE, mEnumTypes);
-        params->addButton("CONNECT", std::bind(&TuioGateway::onConnect, this));
+        ADD_ENUM_TO_INT(params, MODE, mEnumTypes);
+        params->addButton("CONNECT", bind(&TuioGateway::onConnect, this));
 #else
         createConfigImgui();
 #endif
 
         onConnect();
 
-        console() << "MT: " << System::hasMultiTouch() << " Max points: " << System::getMaxMultiTouchPoints() << std::endl;
+        console() << "MT: " << System::hasMultiTouch() << " Max points: " << System::getMaxMultiTouchPoints() << endl;
 
         mFont = Font( "Times New Roman", 22 );
     }
@@ -205,12 +205,20 @@ public:
         N_DISPLAYS = math<int>::clamp(N_DISPLAYS, 1, 8);
         REMOTE_DISPLAY_ID = math<int>::clamp(REMOTE_DISPLAY_ID, 1, N_DISPLAYS);
 
-        if (mCurrentAppUsage == USAGE_SERVER || mCurrentAppUsage == USAGE_ROUTER)
+        if (mCurrentAppUsage == eSENDER || mCurrentAppUsage == eROUTER)
         {
             sendTuioMessage(*mOscSender, mActiveCursors);
 #if OSC_MODE
             endOscMessages(*mOscServer, mActiveCursors);
 #endif
+        }
+
+        if (MODE == eRANDOM_SENDER)
+        {
+            MyCursor cursor = {};
+            cursor.mSessionId = FAKE_SESSION_ID;
+            cursor.mPosition = randVec2();
+            mActiveCursors[FAKE_SESSION_ID] = cursor;
         }
     }
 
@@ -299,7 +307,7 @@ public:
         {
             sender.send(b); // send bundle
         }
-        catch (std::exception& e)
+        catch (exception& e)
         {
             console() << "send : " << e.what() << endl;
         }
@@ -331,7 +339,7 @@ public:
                 if (x <= x0 || x >= x1 || y <= 0 || y >= 1.0f)
                     continue;
 
-                std::string addr = "/cursor/" + toString(cursorIdx);
+                string addr = "/cursor/" + toString(cursorIdx);
                 osc::Bundle bundle;
                 {
                     osc::Message m;
@@ -354,9 +362,9 @@ public:
 #endif
 
 private:
-    std::shared_ptr<osc::SenderUdp>     mOscSender;
-    std::shared_ptr<osc::ReceiverUdp>   mOscReceiver;
-    std::shared_ptr<tuio::Receiver>     mTuio;
+    unique_ptr<osc::SenderUdp>     mOscSender;
+    unique_ptr<osc::ReceiverUdp>   mOscReceiver;
+    unique_ptr<tuio::Receiver>     mTuio;
 #if OSC_MODE
     osc::SenderUdp                 mOscServer;
 #endif

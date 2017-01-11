@@ -16,21 +16,6 @@
     <Filter Include="Blocks">
       <UniqueIdentifier>{9A02BA47-752E-4836-BF8C-42B73EE18952}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Blocks\ImGui">
-      <UniqueIdentifier>{CC75F879-C9B4-42B8-92C3-D91250FDB17F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\ImGui\include">
-      <UniqueIdentifier>{76E979B4-4B22-445D-B1D7-29FF99058D3F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\ImGui\lib">
-      <UniqueIdentifier>{9D2A2768-2DBC-44BA-95CA-35FEB3754BB0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\ImGui\lib\imgui">
-      <UniqueIdentifier>{298D8A8B-0D4F-4ED8-8DCC-01FB3531CE79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\ImGui\src">
-      <UniqueIdentifier>{A6BAF3C5-9076-4EEB-BC0F-DCB42FCD2975}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Blocks\OSC">
       <UniqueIdentifier>{C6BD6F4C-2D91-4478-A395-27500BD27EDA}</UniqueIdentifier>
     </Filter>
@@ -72,30 +57,6 @@
     <ClCompile Include="..\src\TuioGatewayApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\CinderImGui.h">
-      <Filter>Blocks\ImGui\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imconfig.h">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui.h">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_internal.h">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClInclude>
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\src\CinderImGui.cpp">
-      <Filter>Blocks\ImGui\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui.cpp">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_draw.cpp">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_demo.cpp">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Cinder\blocks\OSC\src\cinder\osc\Osc.cpp">
       <Filter>Blocks\OSC\src\cinder\osc</Filter>
     </ClCompile>
@@ -108,9 +69,6 @@
     <ClInclude Include="..\..\Cinder\blocks\TUIO\src\cinder\tuio\Tuio.h">
       <Filter>Blocks\TUIO\src\cinder\tuio</Filter>
     </ClInclude>
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.cpp">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\AssetManager.cpp">
       <Filter>Blocks\VNM</Filter>
     </ClCompile>
@@ -121,9 +79,6 @@
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.h">
-      <Filter>Blocks\ImGui\lib\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\AssetManager.h">
       <Filter>Blocks\VNM</Filter>

@@ -111,7 +111,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\AssetManager.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\CaptureHelper.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\FontHelper.h" />
@@ -124,22 +123,13 @@
     <ClInclude Include="..\..\Cinder\blocks\Cinder-VNM\include\TextureHelper.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\include\item.def" />
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\include\CinderImGui.h" />
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imconfig.h" />
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui.h" />
-    <ClInclude Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_internal.h" />
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\cinder\osc\Osc.h" />
     <ClInclude Include="..\..\Cinder\blocks\TUIO\src\cinder\tuio\Tuio.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\AssetManager.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-VNM\src\MiniConfig.cpp" />
     <ClCompile Include="..\src\TuioGatewayApp.cpp" />
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\src\CinderImGui.cpp" />
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui.cpp" />
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\Cinder\blocks\Cinder-ImGui\lib\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\OSC\src\cinder\osc\Osc.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\TUIO\src\cinder\tuio\Tuio.cpp" />
   </ItemGroup>
