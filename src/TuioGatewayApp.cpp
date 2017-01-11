@@ -118,7 +118,7 @@ public:
             try
             {
                 mOscReceiver->bind();
-                sprintf(buffer, "%s | listen at #%d", buffer, LOCAL_TUIO_PORT);
+                sprintf(buffer, "%s | receiving at #%d", buffer, LOCAL_TUIO_PORT);
                 mCurrentAppUsage = MODE;
             }
             catch (const ci::Exception &ex)
@@ -213,7 +213,7 @@ public:
 #endif
         }
 
-        if (MODE == eRANDOM_SENDER)
+        if (mCurrentAppUsage == eRANDOM_SENDER)
         {
             MyCursor cursor = {};
             cursor.mSessionId = FAKE_SESSION_ID;
